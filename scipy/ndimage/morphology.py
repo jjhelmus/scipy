@@ -1266,6 +1266,26 @@ def grey_erosion(input,  size = None, footprint = None, structure = None,
            [0, 0, 0, 0, 0, 0, 0]])
 
     """
+    if structure is not None:
+        structure = numpy.asarray(structure)
+        size = structure.shape
+        #structure = structure[tuple([slice(None, None, -1)] *
+        #                            structure.ndim)]
+    if footprint is not None:
+        footprint = numpy.asarray(footprint)
+        size = footprint.shape
+        #footprint = footprint[tuple([slice(None, None, -1)] *
+        #                            footprint.ndim)]
+    if size is None:
+        raise RuntimeError("size, footprint or structure must be specified")
+    input = numpy.asarray(input)
+    sizes = _ni_support._normalize_sequence(size, input.ndim)
+    origin = _ni_support._normalize_sequence(origin, input.ndim)
+    for ii in range(len(origin)):
+        #origin[ii] = -origin[ii]
+        sz = sizes[ii]
+        #if not sz & 1:
+            #origin[ii] -= 1
     return filters._min_or_max_filter(input, size, footprint, structure,
                                       output, mode, cval, origin, 1)
 
@@ -1288,7 +1308,8 @@ def grey_dilation(input,  size = None, footprint = None, structure = None,
 
     size : tuple of ints
         Shape of a flat and full structuring element used for the
-        grayscale dilation. Optional if `footprint` is provided.
+        grayscale dilation. Optional if `footprint` or `structure` is 
+        provided.
 
     footprint : array of ints, optional
         Positions of non-infinite elements of a flat structuring element
@@ -1408,20 +1429,22 @@ def grey_dilation(input,  size = None, footprint = None, structure = None,
     """
     if structure is not None:
         structure = numpy.asarray(structure)
+        size = structure.shape
         structure = structure[tuple([slice(None, None, -1)] *
                                     structure.ndim)]
     if footprint is not None:
         footprint = numpy.asarray(footprint)
+        size = footprint.shape
         footprint = footprint[tuple([slice(None, None, -1)] *
                                     footprint.ndim)]
+    if size is None:
+        raise RuntimeError("size, footprint or structure must be specified")
     input = numpy.asarray(input)
+    sizes = _ni_support._normalize_sequence(size, input.ndim)
     origin = _ni_support._normalize_sequence(origin, input.ndim)
     for ii in range(len(origin)):
         origin[ii] = -origin[ii]
-        if footprint is not None:
-            sz = footprint.shape[ii]
-        else:
-            sz = size[ii]
+        sz = sizes[ii]
         if not sz & 1:
             origin[ii] -= 1
     return filters._min_or_max_filter(input, size, footprint, structure,
