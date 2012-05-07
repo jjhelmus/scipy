@@ -1164,7 +1164,8 @@ def grey_erosion(input,  size = None, footprint = None, structure = None,
 
     size : tuple of ints
         Shape of a flat and full structuring element used for the
-        grayscale erosion. Optional if `footprint` is provided.
+        grayscale dilation. Optional if `footprint` or `structure` is 
+        provided.
 
     footprint : array of ints, optional
         Positions of non-infinite elements of a flat structuring element
