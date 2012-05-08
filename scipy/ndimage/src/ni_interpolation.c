@@ -115,7 +115,7 @@ spline_coefficients(double x, int order, double *result)
 static double
 map_coordinate(double in, npy_intp len, int mode)
 {
-    if (in < 0) {
+    if (in < -0.499) {
         switch (mode) {
         case NI_EXTEND_MIRROR:
             if (len <= 1) {
@@ -153,7 +153,7 @@ map_coordinate(double in, npy_intp len, int mode)
             in = -1;
             break;
         }
-    } else if (in > len-1) {
+    } else if (in > len-1 + 0.499) {
         switch (mode) {
         case NI_EXTEND_MIRROR:
             if (len <= 1) {
@@ -507,6 +507,10 @@ NI_GeometricTransform(PyArrayObject *input, int (*map)(npy_intp*, double*,
         for(hh = 0; hh < irank; hh++) {
             /* if the input coordinate is outside the borders, map it: */
             double cc = map_coordinate(icoor[hh], idimensions[hh], mode);
+            // DEBUGGING
+            //printf("kk: %i, hh: %i, icorr[hh]: %e, idimension[hh]: %i, cc: %f\n", 
+            //        kk, hh, icoor[hh]-2., idimensions[hh], cc);
+            
             if (cc > -1.0) {
                 /* find the filter location along this axis: */
                 int start;
@@ -551,7 +555,7 @@ NI_GeometricTransform(PyArrayObject *input, int (*map)(npy_intp*, double*,
                 break;
             }
         }
-
+        //printf(" constant %i\n", constant);
         if (!constant) {
             npy_intp *ff = fcoordinates;
             for(hh = 0; hh < filter_size; hh++) {

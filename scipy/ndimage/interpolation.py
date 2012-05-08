@@ -659,12 +659,33 @@ def rotate(input, angle, axes=(1, 0), reshape=True,
         for ii in range(size):
             ia = input[tuple(coordinates)]
             oa = output[tuple(coordinates)]
+
+            print "------ DEBUG ------"
+            print "ii",ii
+            print "ia", ia
+            print "matrix", matrix
+            print "offset", offset
+            print "os", os
+            print "oa", oa, oa.dtype
+            print "order", order
+            print "mode", mode
+            print "cval", cval
+            print "prefilter", prefilter
+
+
             affine_transform(ia, matrix, offset, os, oa, order, mode,
                              cval, prefilter)
+            
+            print "return_value", return_value
+            print "oa", oa
+            print "------------------------"
             for jj in iter_axes:
                 if coordinates[jj] < input.shape[jj] - 1:
                     coordinates[jj] += 1
                     break
                 else:
                     coordinates[jj] = 0
+    print "Final return_value:"
+    print return_value
+    print "#######################"
     return return_value
