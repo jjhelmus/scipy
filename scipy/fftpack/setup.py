@@ -18,8 +18,10 @@ def configuration(parent_package='',top_path=None):
                        libraries=['f2c'],
                        library_dirs=['/home/jjhelmus'], )
 
-    fftpack_src = [join('src/fftpack','*.f')]
-    config.add_library('fftpack', sources=fftpack_src)
+    fftpack_src = [join('src/fftpack','*.c')]
+    config.add_library('fftpack', sources=fftpack_src,
+                       libraries=['f2c'],
+                       library_dirs=['/home/jjhelmus'], )
 
     sources = ['fftpack.pyf','src/zfft.c','src/drfft.c','src/zrfft.c',
                'src/zfftnd.c', 'src/dct.c.src', 'src/dst.c.src']
