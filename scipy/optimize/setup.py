@@ -76,7 +76,9 @@ def configuration(parent_package='',top_path=None):
                          **numpy_nodepr_api)
 
     config.add_extension('_nnls', sources=[join('nnls', x)
-                                          for x in ["nnls.f","nnls.pyf"]],
+                                          for x in ["nnls.c","nnls.pyf"]],
+                         libraries=['f2c'],
+                         library_dirs=['/home/jjhelmus'],
                          **numpy_nodepr_api)
 
     config.add_extension('_group_columns', sources=['_group_columns.c'],)
