@@ -51,15 +51,23 @@ def configuration(parent_package='',top_path=None):
                        macros=define_macros)
 
     # Fortran/C++ libraries
-    mach_src = [join('mach','*.f')]
-    amos_src = [join('amos','*.f')]
-    cdf_src = [join('cdflib','*.f')]
-    specfun_src = [join('specfun','*.f')]
+    mach_src = [join('mach','*.c')]
+    amos_src = [join('amos','*.c')]
+    cdf_src = [join('cdflib','*.c')]
+    specfun_src = [join('specfun','*.c')]
     config.add_library('sc_mach',sources=mach_src,
-                       config_fc={'noopt':(__file__,1)})
-    config.add_library('sc_amos',sources=amos_src)
-    config.add_library('sc_cdf',sources=cdf_src)
-    config.add_library('sc_specfun',sources=specfun_src)
+                       config_fc={'noopt':(__file__,1)},
+                       libraries=['f2c'],
+                       library_dirs=['/home/jjhelmus'])
+    config.add_library('sc_amos',sources=amos_src,
+                       libraries=['f2c'],
+                       library_dirs=['/home/jjhelmus'])
+    config.add_library('sc_cdf',sources=cdf_src,
+                       libraries=['f2c'],
+                       library_dirs=['/home/jjhelmus'])
+    config.add_library('sc_specfun',sources=specfun_src,
+                       libraries=['f2c'],
+                       library_dirs=['/home/jjhelmus'])
 
     # Extension specfun
     config.add_extension('specfun',
@@ -107,7 +115,7 @@ def configuration(parent_package='',top_path=None):
 
     # Cython API
     config.add_data_files('cython_special.pxd')
-    
+
     cython_special_src = ['cython_special.c', 'sf_error.c', '_logit.c.src',
                           "amos_wrappers.c", "cdf_wrappers.c", "specfun_wrappers.c"]
     cython_special_dep = (headers + ufuncs_src + ufuncs_cxx_src + amos_src
