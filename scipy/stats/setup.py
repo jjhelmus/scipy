@@ -10,8 +10,10 @@ def configuration(parent_package='',top_path=None):
 
     config.add_data_dir('tests')
 
-    statlib_src = [join('statlib', '*.f')]
-    config.add_library('statlib', sources=statlib_src)
+    statlib_src = [join('statlib', '*.c')]
+    config.add_library('statlib', sources=statlib_src,
+                       libraries=['f2c'],
+                       library_dirs=['/home/jjhelmus'])
 
     # add statlib module
     config.add_extension('statlib',
