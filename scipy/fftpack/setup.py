@@ -13,8 +13,10 @@ def configuration(parent_package='',top_path=None):
 
     config.add_data_dir('tests')
 
-    dfftpack_src = [join('src/dfftpack','*.f')]
-    config.add_library('dfftpack', sources=dfftpack_src)
+    dfftpack_src = [join('src/dfftpack','*.c')]
+    config.add_library('dfftpack', sources=dfftpack_src,
+                       libraries=['f2c'],
+                       library_dirs=['/home/jjhelmus'], )
 
     fftpack_src = [join('src/fftpack','*.f')]
     config.add_library('fftpack', sources=fftpack_src)
