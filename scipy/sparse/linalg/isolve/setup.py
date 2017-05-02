@@ -17,21 +17,21 @@ def configuration(parent_package='',top_path=None):
         raise NotFoundError('no lapack/blas resources found')
 
     # iterative methods
-    methods = ['BiCGREVCOM.f.src',
-               'BiCGSTABREVCOM.f.src',
-               'CGREVCOM.f.src',
-               'CGSREVCOM.f.src',
+    methods = ['BiCGREVCOM.c',
+               'BiCGSTABREVCOM.c',
+               'CGREVCOM.c',
+               'CGSREVCOM.c',
 #               'ChebyREVCOM.f.src',
-               'GMRESREVCOM.f.src',
+               'GMRESREVCOM.c',
 #               'JacobiREVCOM.f.src',
-               'QMRREVCOM.f.src',
+               'QMRREVCOM.c',
 #               'SORREVCOM.f.src'
                ]
 
-    Util = ['STOPTEST2.f.src','getbreak.f.src']
-    sources = Util + methods + ['_iterative.pyf.src']
+    Util = ['STOPTEST2.c','getbreak.c']
+    sources = Util + methods + ['_iterative.pyf']
     sources = [join('iterative', x) for x in sources]
-    sources += get_g77_abi_wrappers(lapack_opt)
+    #sources += get_g77_abi_wrappers(lapack_opt)
 
     config.add_extension('_iterative',
                          sources=sources,
