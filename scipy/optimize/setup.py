@@ -69,8 +69,10 @@ def configuration(parent_package='',top_path=None):
                          library_dirs=['/home/jjhelmus'],
                          **numpy_nodepr_api)
 
-    sources = ['slsqp.pyf', 'slsqp_optmz.f']
+    sources = ['slsqp.pyf', 'slsqp_optmz.c']
     config.add_extension('_slsqp', sources=[join('slsqp', x) for x in sources],
+                         libraries=['f2c'],
+                         library_dirs=['/home/jjhelmus'],
                          **numpy_nodepr_api)
 
     config.add_extension('_nnls', sources=[join('nnls', x)
