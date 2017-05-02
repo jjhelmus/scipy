@@ -62,9 +62,11 @@ def configuration(parent_package='',top_path=None):
                          library_dirs=['/home/jjhelmus'],
                          **numpy_nodepr_api)
 
-    sources = ['minpack2.pyf', 'dcsrch.f', 'dcstep.f']
+    sources = ['minpack2.pyf', 'dcsrch.c', 'dcstep.c']
     config.add_extension('minpack2',
                          sources=[join('minpack2',x) for x in sources],
+                         libraries=['f2c'],
+                         library_dirs=['/home/jjhelmus'],
                          **numpy_nodepr_api)
 
     sources = ['slsqp.pyf', 'slsqp_optmz.f']
