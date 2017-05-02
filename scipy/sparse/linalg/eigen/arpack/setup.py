@@ -18,13 +18,15 @@ def configuration(parent_package='',top_path=None):
 
     config = Configuration('arpack', parent_package, top_path)
 
-    arpack_sources = [join('ARPACK','SRC', '*.f')]
-    arpack_sources.extend([join('ARPACK','UTIL', '*.f')])
+    arpack_sources = [join('ARPACK','SRC', '*.c')]
+    arpack_sources.extend([join('ARPACK','UTIL', '*.c')])
 
     arpack_sources += get_g77_abi_wrappers(lapack_opt)
 
     config.add_library('arpack_scipy', sources=arpack_sources,
-                       include_dirs=[join('ARPACK', 'SRC')])
+                       include_dirs=[join('ARPACK', 'SRC')],
+                       libraries=['f2c'],
+                       library_dirs=['/home/jjhelmus'])
 
     ext_sources = ['arpack.pyf.src']
     ext_sources += get_sgemv_fix(lapack_opt)
