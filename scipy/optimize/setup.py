@@ -41,7 +41,9 @@ def configuration(parent_package='',top_path=None):
                                        numpy_nodepr_api['define_macros'])
         else:
             lapack['define_macros'] = numpy_nodepr_api['define_macros']
-    sources = ['lbfgsb.pyf', 'lbfgsb.f', 'linpack.f', 'timer.f']
+    sources = ['lbfgsb.pyf', 'lbfgsb.c', 'linpack.c', 'timer.c']
+    lapack['libraries'].append('f2c')
+    lapack['library_dirs'].append('/home/jjhelmus')
     config.add_extension('_lbfgsb',
                          sources=[join('lbfgsb',x) for x in sources],
                          **lapack)
