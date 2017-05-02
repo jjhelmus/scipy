@@ -18,7 +18,7 @@ def configuration(parent_package='',top_path=None):
     # additional required libraries
     lapack_libs = lapack_opt.pop('libraries', [])
 
-    mach_src = [join('mach','*.f')]
+    mach_src = [join('mach','*.c')]
     quadpack_src = [join('quadpack','*.f')]
     odepack_src = [join('odepack','*.f')]
     dop_src = [join('dop','*.f')]
@@ -26,7 +26,9 @@ def configuration(parent_package='',top_path=None):
     odeint_banded_test_src = [join('tests', 'banded5x5.f')]
 
     config.add_library('mach', sources=mach_src,
-                       config_fc={'noopt':(__file__,1)})
+                       config_fc={'noopt':(__file__,1)},
+                       libraries=['f2c'],
+                       library_dirs=['/home/jjhelmus'], )
     config.add_library('quadpack', sources=quadpack_src)
     config.add_library('odepack', sources=odepack_src)
     config.add_library('dop', sources=dop_src)
