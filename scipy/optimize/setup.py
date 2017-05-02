@@ -10,8 +10,10 @@ def configuration(parent_package='',top_path=None):
     from numpy.distutils.system_info import get_info
     config = Configuration('optimize',parent_package, top_path)
 
-    minpack_src = [join('minpack','*f')]
-    config.add_library('minpack',sources=minpack_src)
+    minpack_src = [join('minpack','*c')]
+    config.add_library('minpack',sources=minpack_src,
+                       libraries=['f2c'],
+                       library_dirs=['/home/jjhelmus'], )
     config.add_extension('_minpack',
                          sources=['_minpackmodule.c'],
                          libraries=['minpack'],
