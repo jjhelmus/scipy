@@ -56,8 +56,10 @@ def configuration(parent_package='',top_path=None):
 
     config.add_extension('_cobyla',
                          sources=[join('cobyla',x) for x in ['cobyla.pyf',
-                                                             'cobyla2.f',
-                                                             'trstlp.f']],
+                                                             'cobyla2.c',
+                                                             'trstlp.c']],
+                         libraries=['f2c'],
+                         library_dirs=['/home/jjhelmus'],
                          **numpy_nodepr_api)
 
     sources = ['minpack2.pyf', 'dcsrch.f', 'dcstep.f']
