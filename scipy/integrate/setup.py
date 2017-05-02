@@ -20,10 +20,10 @@ def configuration(parent_package='',top_path=None):
 
     mach_src = [join('mach','*.c')]
     quadpack_src = [join('quadpack','*.c')]
-    odepack_src = [join('odepack','*.f')]
-    dop_src = [join('dop','*.f')]
+    odepack_src = [join('odepack','*.c')]
+    dop_src = [join('dop','*.c')]
     quadpack_test_src = [join('tests','_test_multivariate.c')]
-    odeint_banded_test_src = [join('tests', 'banded5x5.f')]
+    odeint_banded_test_src = [join('tests', 'banded5x5.c')]
 
     config.add_library('mach', sources=mach_src,
                        config_fc={'noopt':(__file__,1)},
@@ -32,8 +32,12 @@ def configuration(parent_package='',top_path=None):
     config.add_library('quadpack', sources=quadpack_src,
                        libraries=['f2c'],
                        library_dirs=['/home/jjhelmus'], )
-    config.add_library('odepack', sources=odepack_src)
-    config.add_library('dop', sources=dop_src)
+    config.add_library('odepack', sources=odepack_src,
+                       libraries=['f2c'],
+                       library_dirs=['/home/jjhelmus'], )
+    config.add_library('dop', sources=dop_src,
+                       libraries=['f2c'],
+                       library_dirs=['/home/jjhelmus'], )
 
     # Extensions
     # quadpack:
@@ -87,9 +91,10 @@ def configuration(parent_package='',top_path=None):
                          sources=quadpack_test_src)
 
     # Fortran+f2py extension module for testing odeint.
+    lapack_opt['library_dirs'].append('/home/jjhelmus')
     config.add_extension('_test_odeint_banded',
                          sources=odeint_banded_test_src,
-                         libraries=odepack_libs,
+                         libraries=odepack_libs+['f2c'],
                          depends=(odepack_src + mach_src),
                          **lapack_opt)
 
