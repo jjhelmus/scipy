@@ -19,7 +19,7 @@ def configuration(parent_package='',top_path=None):
     lapack_libs = lapack_opt.pop('libraries', [])
 
     mach_src = [join('mach','*.c')]
-    quadpack_src = [join('quadpack','*.f')]
+    quadpack_src = [join('quadpack','*.c')]
     odepack_src = [join('odepack','*.f')]
     dop_src = [join('dop','*.f')]
     quadpack_test_src = [join('tests','_test_multivariate.c')]
@@ -29,7 +29,9 @@ def configuration(parent_package='',top_path=None):
                        config_fc={'noopt':(__file__,1)},
                        libraries=['f2c'],
                        library_dirs=['/home/jjhelmus'], )
-    config.add_library('quadpack', sources=quadpack_src)
+    config.add_library('quadpack', sources=quadpack_src,
+                       libraries=['f2c'],
+                       library_dirs=['/home/jjhelmus'], )
     config.add_library('odepack', sources=odepack_src)
     config.add_library('dop', sources=dop_src)
 
