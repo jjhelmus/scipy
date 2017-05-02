@@ -12,8 +12,10 @@ def configuration(parent_package='',top_path=None):
 
     config = Configuration('interpolate', parent_package, top_path)
 
-    fitpack_src = [join('fitpack', '*.f')]
-    config.add_library('fitpack', sources=fitpack_src)
+    fitpack_src = [join('fitpack', '*.c')]
+    config.add_library('fitpack', sources=fitpack_src,
+                       libraries=['f2c'],
+                       library_dirs=['/home/jjhelmus'])
 
     config.add_extension('interpnd',
                          sources=['interpnd.c'])
